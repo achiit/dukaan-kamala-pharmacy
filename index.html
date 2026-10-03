@@ -1,0 +1,793 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kamala Pharmacy — Records</title>
+<style>
+:root{
+  --bg:#f2f8f7;--card:#ffffff;--ink:#12302d;--muted:#5b7873;--line:#d7e6e3;
+  --brand:#0f8f7e;--brand-d:#0a6b5e;--brand-l:#e2f4f1;--on-brand:#ffffff;
+  --danger:#c0392b;--danger-l:#fdecea;--ok:#1b8a4b;--ok-l:#e5f6ec;--warn:#9a6a10;--warn-l:#fff5de;
+  --shadow:0 1px 3px rgba(15,60,55,.12),0 4px 14px rgba(15,60,55,.06);
+  color-scheme:light;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0d1918;--card:#142524;--ink:#e3f1ee;--muted:#8db0aa;--line:#264340;
+    --brand:#2bbfa8;--brand-d:#5fd8c4;--brand-l:#173b36;--on-brand:#06201c;
+    --danger:#ff7b6b;--danger-l:#3a1d1a;--ok:#5fd68f;--ok-l:#173626;--warn:#f0c15a;--warn-l:#3a2e12;
+    --shadow:0 1px 3px rgba(0,0,0,.4);color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0d1918;--card:#142524;--ink:#e3f1ee;--muted:#8db0aa;--line:#264340;
+  --brand:#2bbfa8;--brand-d:#5fd8c4;--brand-l:#173b36;--on-brand:#06201c;
+  --danger:#ff7b6b;--danger-l:#3a1d1a;--ok:#5fd68f;--ok-l:#173626;--warn:#f0c15a;--warn-l:#3a2e12;
+  --shadow:0 1px 3px rgba(0,0,0,.4);color-scheme:dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans","Noto Sans Bengali",Arial,sans-serif;min-height:100vh}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+.wrap{max-width:980px;margin:0 auto;padding:0 12px}
+.topbar{background:var(--brand-d);color:#fff;position:sticky;top:env(safe-area-inset-top,0px);z-index:30;box-shadow:var(--shadow)}
+:root[data-theme="dark"] .topbar,.topbar{background:var(--brand-d)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .topbar{background:#0b3a34;color:#e3f1ee}}
+:root[data-theme="dark"] .topbar{background:#0b3a34;color:#e3f1ee}
+.topbar .wrap{display:flex;align-items:center;gap:10px;padding-top:9px;padding-bottom:9px}
+.logo{width:38px;height:38px;border-radius:10px;background:#fff;color:var(--brand-d);display:grid;place-items:center;font-weight:800;font-size:20px;flex:none}
+.brand b{display:block;letter-spacing:.06em;font-size:16px;line-height:1.1}
+.brand small{display:block;font-size:11.5px;opacity:.85;line-height:1.25}
+.who{margin-left:auto;font-size:12px;opacity:.9;text-align:right;max-width:34vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.subbar{display:flex;align-items:center;gap:8px;padding:10px 0 4px}
+.subbar h1{font-size:19px;margin:0;flex:1}
+.pill-btn{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:8px 14px;font-weight:600;display:inline-flex;align-items:center;gap:6px;min-height:40px}
+.pill-btn.primary{background:var(--brand);color:var(--on-brand);border-color:var(--brand)}
+main{padding:8px 0 40px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin:10px 0;box-shadow:var(--shadow)}
+.card h2{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+label{display:block;font-size:13px;font-weight:600;color:var(--muted);margin:10px 0 4px}
+label:first-of-type{margin-top:0}
+input[type=text],input[type=tel],input[type=search],input[type=date],input[type=number],textarea{
+  width:100%;min-height:50px;padding:10px 12px;border:1.5px solid var(--line);border-radius:12px;background:var(--bg);font-size:16px;outline:none}
+textarea{min-height:80px;resize:vertical}
+input:focus,textarea:focus{border-color:var(--brand);box-shadow:0 0 0 3px color-mix(in srgb,var(--brand) 25%,transparent)}
+input.err{border-color:var(--danger);background:var(--danger-l)}
+.mobile-in{font-size:22px!important;letter-spacing:.06em;font-weight:600}
+.grid2{display:grid;gap:10px;grid-template-columns:1fr}
+@media(min-width:620px){.grid2{grid-template-columns:1fr 1fr}}
+.badge{margin-top:8px;padding:8px 12px;border-radius:10px;font-size:14px;background:var(--bg);color:var(--muted);border:1px dashed var(--line)}
+.badge.ok{background:var(--ok-l);color:var(--ok);border:1px solid transparent;font-weight:600}
+.badge.new{background:var(--warn-l);color:var(--warn);border:1px solid transparent;font-weight:600}
+.badge.bad{background:var(--danger-l);color:var(--danger);border:1px solid transparent}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.chips:empty{display:none}
+.chip{border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:8px 13px;font-size:14px;font-weight:600;min-height:38px}
+.chip.on{background:var(--brand);color:var(--on-brand);border-color:var(--brand)}
+.chip.soft{background:var(--brand-l);border-color:transparent;color:var(--brand-d)}
+:root[data-theme="dark"] .chip.soft{color:var(--brand-d)}
+.ac{position:relative}
+.sug{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:25;background:var(--card);border:1.5px solid var(--brand);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.18);overflow:hidden}
+.sug[hidden]{display:none}
+.si{padding:13px 14px;border-bottom:1px solid var(--line);font-weight:500;min-height:48px;display:flex;align-items:center}
+.si:last-child{border-bottom:0}
+.si:active,.si:hover{background:var(--brand-l)}
+.si.new{color:var(--brand-d);font-weight:700}
+.mrow{display:flex;gap:8px;align-items:center;margin-bottom:10px;position:relative}
+.mrow .num{width:26px;height:26px;border-radius:50%;background:var(--brand-l);color:var(--brand-d);font-size:13px;font-weight:700;display:grid;place-items:center;flex:none}
+.grow{flex:1;min-width:0}
+.qty{display:flex;align-items:center;flex:none}
+.qty button{width:40px;height:50px;border:1.5px solid var(--line);background:var(--card);font-size:22px;font-weight:700;color:var(--brand-d)}
+.qty button:first-child{border-radius:12px 0 0 12px;border-right:0}
+.qty button:last-child{border-radius:0 12px 12px 0;border-left:0}
+.qty input{width:52px;min-height:50px;text-align:center;border-radius:0;padding:0;font-weight:700;-moz-appearance:textfield}
+.qty input::-webkit-outer-spin-button,.qty input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.icon-btn{border:0;background:transparent;color:var(--muted);width:40px;height:40px;border-radius:10px;display:grid;place-items:center;flex:none}
+.icon-btn:hover{background:var(--bg);color:var(--danger)}
+.btn-ghost{width:100%;min-height:48px;border:1.5px dashed var(--brand);background:transparent;color:var(--brand-d);border-radius:12px;font-weight:700}
+.savebar{position:sticky;bottom:0;z-index:20;margin:14px -12px 0;padding:10px 12px;padding-bottom:calc(10px + env(safe-area-inset-bottom,0px));background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(6px);border-top:1px solid var(--line);display:flex;gap:12px;align-items:center}
+.savebar .sum{font-size:13px;color:var(--muted);min-width:70px}
+.save{flex:1;min-height:60px;border:0;border-radius:16px;background:var(--brand);color:var(--on-brand);font-size:19px;font-weight:800;letter-spacing:.06em;box-shadow:0 4px 14px color-mix(in srgb,var(--brand) 45%,transparent)}
+.save:disabled{opacity:.55}
+.banner{padding:12px 14px;border-radius:12px;margin:10px 0;font-weight:600;display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.banner.ok{background:var(--ok-l);color:var(--ok)}
+.banner.warn{background:var(--warn-l);color:var(--warn)}
+.banner a{text-decoration:underline;cursor:pointer}
+.tiles{display:grid;gap:12px;grid-template-columns:1fr 1fr;margin-top:10px}
+@media(min-width:720px){.tiles{grid-template-columns:repeat(4,1fr)}}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 14px;text-align:left;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;min-height:112px;justify-content:space-between}
+.tile:active{transform:scale(.98)}
+.tile .ic{width:44px;height:44px;border-radius:12px;background:var(--brand-l);color:var(--brand-d);display:grid;place-items:center}
+.tile b{font-size:16px;line-height:1.2}
+.tile small{display:block;color:var(--muted);font-weight:500;font-size:12.5px}
+.tile.hero{grid-column:1/-1;background:var(--brand);color:var(--on-brand);border-color:var(--brand);flex-direction:row;align-items:center;justify-content:flex-start;min-height:92px;gap:14px}
+.tile.hero .ic{background:rgba(255,255,255,.2);color:inherit;width:54px;height:54px}
+.tile.hero b{font-size:21px}
+.tile.hero small{color:inherit;opacity:.85}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:6px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 6px;text-align:center}
+.stat b{display:block;font-size:20px;line-height:1.1}
+.stat span{font-size:11.5px;color:var(--muted)}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:4px 0 8px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs .chip{flex:none}
+.row{width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:8px 0;display:flex;flex-direction:column;gap:2px}
+.row:active{background:var(--brand-l)}
+.row .r1{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.row b{font-size:16px}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.empty{text-align:center;color:var(--muted);padding:26px 10px}
+.entry{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:10px 0}
+.entry-h{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.entry .date{color:var(--brand-d);font-size:15px}
+.entry .cust{font-weight:700;text-decoration:none;cursor:pointer}
+.items{list-style:none;margin:8px 0 0;padding:0}
+.items li{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-top:1px dashed var(--line)}
+.items li b{background:var(--brand-l);color:var(--brand-d);border-radius:8px;padding:0 10px;min-width:34px;text-align:center}
+.note{margin:6px 0 0;padding:8px 10px;background:var(--warn-l);color:var(--warn);border-radius:10px;font-size:14px}
+.by{font-size:12px;color:var(--muted);margin-top:6px}
+.datebar{display:flex;gap:8px;align-items:center}
+.datebar input{flex:1}
+.datebar .icon-btn{border:1.5px solid var(--line);width:50px;height:50px;font-size:22px;color:var(--brand-d)}
+.rank{list-style:none;margin:0;padding:0;counter-reset:r}
+.rank li{display:flex;gap:10px;justify-content:space-between;padding:8px 0;border-top:1px dashed var(--line);counter-increment:r}
+.rank li:first-child{border-top:0}
+.rank li span::before{content:counter(r) ". ";color:var(--muted)}
+.rank li b{color:var(--brand-d)}
+.bars{display:flex;align-items:flex-end;gap:3px;height:90px;padding-top:8px}
+.bars div{flex:1;background:var(--brand);border-radius:3px 3px 0 0;min-height:2px;opacity:.85}
+.hint{font-size:13px;color:var(--muted);margin:6px 2px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(88px + env(safe-area-inset-bottom,0px));background:#12302d;color:#fff;padding:12px 18px;border-radius:12px;z-index:90;max-width:90vw;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.3)}
+.toast.err{background:#a52a1f}
+.ov{position:fixed;inset:0;background:rgba(5,25,22,.55);z-index:80;display:grid;place-items:center;padding:16px}
+.modal{background:var(--card);border-radius:18px;padding:18px;width:100%;max-width:420px;box-shadow:0 10px 40px rgba(0,0,0,.35)}
+.modal h3{margin:0 0 8px}
+.modal .acts{display:flex;gap:10px;margin-top:16px}
+.modal .acts button{flex:1;min-height:48px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);font-weight:700}
+.modal .acts .go{background:var(--brand);color:var(--on-brand);border-color:var(--brand)}
+.modal .acts .del{background:var(--danger);color:#fff;border-color:var(--danger)}
+.lock{max-width:420px;margin:12vh auto 0;text-align:center;padding:0 16px}
+.lock .logo{width:68px;height:68px;font-size:34px;margin:0 auto 14px;background:var(--brand);color:var(--on-brand)}
+.lock h1{margin:0 0 6px;letter-spacing:.06em}
+.addrow{display:flex;gap:8px}
+.addrow input{flex:1}
+.addrow button{min-height:50px;padding:0 18px;border:0;border-radius:12px;background:var(--brand);color:var(--on-brand);font-weight:700}
+.trash{display:flex;align-items:center;gap:8px}
+.listrow{display:flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:14px;margin:8px 0;padding:4px 6px 4px 14px}
+.listrow .nm{flex:1;padding:10px 0;text-align:left;background:none;border:0;font-weight:600;min-width:0;overflow-wrap:anywhere}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="wrap">
+  <div class="logo">℞</div>
+  <div class="brand"><b>KAMALA PHARMACY</b><small>Kheya Ghat Road, Japat, Kalna, Purba Bardhaman</small></div>
+  <div class="who" id="who"></div>
+</div></div>
+<div class="wrap"><div id="sub"></div><main id="main"></main></div>
+
+<script>
+(function(){
+'use strict';
+
+/* ---------- helpers ---------- */
+const $=(s,r=document)=>r.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad=n=>String(n).padStart(2,'0');
+const isoOf=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const today=()=>isoOf(new Date());
+const fmt=iso=>{if(!iso)return '';const p=iso.split('-');return p.length===3?p[2]+'/'+p[1]+'/'+p[0]:iso};
+const addDays=(iso,n)=>{const [y,m,d]=iso.split('-').map(Number);return isoOf(new Date(y,m-1,d+n))};
+const clean=s=>String(s||'').replace(/\s+/g,' ').trim();
+function normMobile(s){let d=String(s||'').replace(/\D/g,'');if(d.length>10&&d.startsWith('91'))d=d.slice(2);if(d.length>10&&d.startsWith('0'))d=d.slice(1);return d}
+function hash36(s){let h=5381;for(let i=0;i<s.length;i++)h=((h*33)^s.charCodeAt(i))>>>0;return h.toString(36)}
+function slug(name){
+  const n=clean(name).toLowerCase();
+  let base=n.replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,60);
+  if(!base||/[^\x00-\x7f]/.test(n))base=(base?base+'-':'x-')+hash36(n);
+  return base;
+}
+const ICONS={
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  search:'<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
+  pill:'<path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/>',
+  steth:'<path d="M6 3v6a4 4 0 0 0 8 0V3"/><path d="M10 13v2a5 5 0 0 0 10 0v-1"/><circle cx="20" cy="12" r="2"/>',
+  users:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/>',
+  cal:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  chart:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+  trash:'<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>',
+  back:'<path d="m15 5-7 7 7 7"/>',
+  dl:'<path d="M12 3v12m0 0-4-4m4 4 4-4M4 21h16"/>',
+  x:'<path d="M6 6l12 12M18 6 6 18"/>',
+  edit:'<path d="M4 20h4L19 9l-4-4L4 16v4Z"/>'
+};
+const icon=(n,s=22)=>'<svg viewBox="0 0 24 24" width="'+s+'" height="'+s+'" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(ICONS[n]||'')+'</svg>';
+
+/* ---------- state ---------- */
+const S={db:null,user:null,dl:null,uid:null,canWrite:true,staff:'',
+  customers:new Map(),doctors:new Map(),medicines:new Map(),
+  view:'home',params:{},subs:[],refresh:null,ready:{customers:false}};
+const main=$('#main'),subbar=$('#sub');
+const sub=fn=>{S.subs.push(fn);return fn};
+function clearSubs(){S.subs.forEach(f=>{try{f()}catch(e){}});S.subs=[];S.refresh=null}
+
+function toast(msg,err){
+  const t=document.createElement('div');t.className='toast'+(err?' err':'');t.textContent=msg;document.body.appendChild(t);
+  setTimeout(()=>t.remove(),err?4200:2200);
+}
+function errMsg(e){
+  const c=e&&e.code;
+  if(c==='quota_exceeded')return 'Storage is full. '+(e.message||'');
+  if(c==='invalid_argument')return 'This account cannot save changes. Ask the owner to give you Contributor access.';
+  if(c==='resource_exhausted')return 'Too many requests. Wait a moment and try again.';
+  if(c==='revoked')return 'Access was removed. Please reopen the page.';
+  return 'Could not complete. Check the connection and try again.';
+}
+function modal(html){
+  const ov=document.createElement('div');ov.className='ov';ov.innerHTML='<div class="modal">'+html+'</div>';
+  document.body.appendChild(ov);
+  const close=()=>ov.remove();
+  ov.addEventListener('pointerdown',e=>{if(e.target===ov)close()});
+  return {ov,close,el:ov.firstChild};
+}
+function confirmBox(title,msg,okLabel){
+  return new Promise(res=>{
+    const m=modal('<h3>'+esc(title)+'</h3><p class="muted" style="margin:0">'+esc(msg)+'</p><div class="acts"><button data-r="0">Cancel</button><button class="del" data-r="1">'+esc(okLabel||'Delete')+'</button></div>');
+    m.el.addEventListener('click',e=>{const b=e.target.closest('[data-r]');if(b){m.close();res(b.dataset.r==='1')}});
+  });
+}
+
+/* ---------- lock / login ---------- */
+function lock(title,msg,retry){
+  clearSubs();subbar.innerHTML='';
+  main.innerHTML='<div class="lock"><div class="logo">℞</div><h1>KAMALA PHARMACY</h1><h2 style="margin:4px 0 8px">'+esc(title)+'</h2><p class="muted">'+esc(msg)+'</p>'+(retry?'<button class="pill-btn primary" id="retry" style="margin-top:10px">Try again</button>':'')+'</div>';
+  const r=$('#retry');if(r)r.onclick=()=>location.reload();
+}
+
+/* ---------- navigation ---------- */
+const TITLES={new:'New Entry',search:'Search',customers:'Customer Records',customer:'Customer',medicines:'Medicine Records',doctors:'Doctor List',daily:'Daily Records',reports:'Reports'};
+const VIEWS={};
+function go(view,params,push){
+  clearSubs();S.view=view;S.params=params||{};
+  if(push!==false){try{history.pushState({v:view,p:S.params},'')}catch(e){}}
+  renderSub();
+  (VIEWS[view]||VIEWS.home)(S.params);
+  window.scrollTo(0,0);
+}
+window.addEventListener('popstate',e=>{const st=e.state;if(S.db)go(st&&st.v||'home',st&&st.p||{},false)});
+function renderSub(){
+  if(S.view==='home'){subbar.innerHTML='';return}
+  subbar.innerHTML='<div class="subbar"><button class="pill-btn" data-go="home">'+icon('back',18)+' Home</button><h1>'+esc(TITLES[S.view]||'')+'</h1>'+(S.view!=='new'?'<button class="pill-btn primary" data-go="new">'+icon('plus',18)+' New</button>':'')+'</div>';
+}
+document.addEventListener('click',e=>{
+  const g=e.target.closest('[data-go]');
+  if(g){let p={};try{p=JSON.parse(g.dataset.p||'{}')}catch(x){}go(g.dataset.go,p);return}
+  const c=e.target.closest('[data-cust]');
+  if(c){go('customer',{id:c.dataset.cust});return}
+  const d=e.target.closest('[data-del]');
+  if(d){delEntry(d.dataset.del)}
+});
+async function delEntry(id){
+  if(!await confirmBox('Delete this entry?','This removes the medicine entry permanently.','Delete'))return;
+  try{await S.db.doc('entries/'+id).delete();toast('Entry deleted')}catch(e){toast(errMsg(e),true)}
+}
+
+/* ---------- shared UI bits ---------- */
+const sortEntries=a=>a.sort((x,y)=>(y.date||'').localeCompare(x.date||'')||(y.createdAt||'').localeCompare(x.createdAt||''));
+const toEntries=snap=>sortEntries(snap.docs.map(d=>Object.assign({id:d.id},d.data())));
+function entryCard(e,o){
+  o=o||{};
+  const items=(e.items||[]).map(i=>'<li><span>'+esc(i.name)+'</span><b>'+esc(i.qty)+'</b></li>').join('');
+  return '<article class="entry"><div class="entry-h"><div><b class="date">'+fmt(e.date)+'</b>'+
+    (o.noCust?'':' &nbsp;<a class="cust" data-cust="'+esc(e.customerId)+'">'+esc(e.customerName)+'</a> <span class="muted small">'+esc(e.mobile)+'</span>')+
+    '</div>'+(S.canWrite?'<button class="icon-btn" data-del="'+esc(e.id)+'" aria-label="Delete entry">'+icon('trash',18)+'</button>':'')+'</div>'+
+    (e.doctorName?'<div class="muted small">'+icon('steth',14)+' '+esc(e.doctorName)+'</div>':'')+
+    '<ul class="items">'+items+'</ul>'+(e.notes?'<p class="note">'+esc(e.notes)+'</p>':'')+
+    (o.by?'<div class="by">Entered by '+esc(o.by)+'</div>':'')+'</article>';
+}
+function matchList(map,q,limit){
+  q=clean(q).toLowerCase();if(!q)return [];
+  const toks=q.split(' '),out=[];
+  for(const v of map.values()){
+    const n=(v.name||'').toLowerCase();
+    if(toks.every(t=>n.includes(t))){
+      const rank=n.startsWith(q)?0:(n.split(/[\s\-.]+/).some(w=>w.startsWith(toks[0]))?1:2);
+      out.push({name:v.name,rank});
+    }
+  }
+  out.sort((a,b)=>a.rank-b.rank||a.name.localeCompare(b.name));
+  return out.slice(0,limit);
+}
+function showSug(box,list,q,kind){
+  const t=clean(q);
+  let h=list.map(x=>'<div class="si" data-v="'+esc(x.name)+'">'+esc(x.name)+'</div>').join('');
+  if(t.length>=2&&!list.some(x=>x.name.toLowerCase()===t.toLowerCase()))h+='<div class="si new" data-v="'+esc(t)+'">+ Add “'+esc(t)+'” as new '+kind+'</div>';
+  box.innerHTML=h;box.hidden=!h;
+}
+const sortByName=a=>a.sort((x,y)=>(x.name||'').localeCompare(y.name||''));
+const custArr=()=>Array.from(S.customers.values());
+
+/* ---------- HOME ---------- */
+VIEWS.home=function(){
+  const tiles=[
+    ['new','New Entry','plus','Fast medicine entry',{},true],
+    ['search','Customer Search','search','Name or mobile',{tab:'customer'}],
+    ['search','Medicine Search','pill','Who bought what',{tab:'medicine'}],
+    ['doctors','Doctor List','steth','Saved doctors',{}],
+    ['customers','Customer Records','users','All customers',{}],
+    ['medicines','Medicine Records','pill','Medicine database',{}],
+    ['daily','Daily Records','cal','Entries by date',{}],
+    ['reports','Reports','chart','Totals & export',{}]
+  ];
+  main.innerHTML=(S.canWrite?'':'<div class="banner warn">View-only access: you can search and read records but not save new ones.</div>')+
+    '<div class="stats"><div class="stat"><b id="st-t">–</b><span>Today</span></div><div class="stat"><b id="st-c">–</b><span>Customers</span></div><div class="stat"><b id="st-m">–</b><span>Medicines</span></div><div class="stat"><b id="st-d">–</b><span>Doctors</span></div></div>'+
+    '<div class="tiles">'+tiles.map(t=>'<button class="tile'+(t[5]?' hero':'')+'" data-go="'+t[0]+'" data-p=\''+esc(JSON.stringify(t[4]))+'\'><span class="ic">'+icon(t[2],t[5]?30:24)+'</span><span><b>'+t[1]+'</b><small>'+t[3]+'</small></span></button>').join('')+'</div>';
+  const upd=()=>{const set=(id,v)=>{const el=$(id);if(el)el.textContent=v};set('#st-c',S.customers.size);set('#st-m',S.medicines.size);set('#st-d',S.doctors.size)};
+  S.refresh=upd;upd();
+  sub(S.db.collection('entries').where('date','==',today()).onSnapshot(s=>{const el=$('#st-t');if(el)el.textContent=s.size},()=>{}));
+};
+
+/* ---------- NEW ENTRY ---------- */
+let N=null;
+VIEWS.new=function(p){
+  N={mobile:'',name:'',address:'',doctor:'',date:today(),items:[{name:'',qty:1}],notes:'',existing:null,usual:[],autoDoc:false};
+  const ro=!S.canWrite;
+  main.innerHTML=
+    (p.saved?'<div class="banner ok"><span>✓ Saved — '+esc(p.saved.name)+' · '+p.saved.count+' medicine'+(p.saved.count>1?'s':'')+'</span><a data-cust="'+esc(p.saved.id)+'">View history</a></div>':'')+
+    (ro?'<div class="banner warn">View-only access: saving is disabled for this account.</div>':'')+
+    '<section class="card"><h2>Customer</h2>'+
+      '<label for="mob">Mobile number</label>'+
+      '<input id="mob" class="mobile-in" type="tel" inputmode="numeric" autocomplete="off" maxlength="16" placeholder="10-digit mobile">'+
+      '<div id="badge" class="badge">Enter mobile number to find the customer</div>'+
+      '<div class="grid2" style="margin-top:10px"><div><label for="nm">Customer name</label><input id="nm" type="text" autocomplete="off" placeholder="Name"></div>'+
+      '<div><label for="ad">Address</label><input id="ad" type="text" autocomplete="off" placeholder="Village / town"></div></div></section>'+
+    '<section class="card"><h2>Doctor</h2><div class="grid2"><div><label for="doc">Doctor name</label><div class="ac"><input id="doc" type="text" autocomplete="off" placeholder="Start typing doctor name"><div class="sug" id="docSug" hidden></div></div></div>'+
+      '<div><label for="dt">Date</label><input id="dt" type="date" value="'+N.date+'"></div></div><div class="chips" id="docChips"></div></section>'+
+    '<section class="card"><h2>Medicines</h2><div class="chips" id="usual" style="margin:0 0 10px"></div><div id="rows"></div>'+
+      '<button class="btn-ghost" id="addRow" type="button">+ Add another medicine</button>'+
+      '<div style="margin-top:12px"><button class="chip soft" id="noteBtn" type="button">+ Add note</button><textarea id="notes" placeholder="Optional notes" hidden style="margin-top:8px"></textarea></div></section>'+
+    '<div class="savebar"><div class="sum" id="sum">0 medicines</div><button class="save" id="save" type="button"'+(ro?' disabled':'')+'>SAVE ENTRY</button></div>';
+
+  const mob=$('#mob'),nm=$('#nm'),ad=$('#ad'),doc=$('#doc'),docSug=$('#docSug'),rows=$('#rows');
+
+  function sum(){const n=N.items.filter(i=>clean(i.name)).length;$('#sum').textContent=n+' medicine'+(n===1?'':'s')}
+  function renderRows(focusLast){
+    rows.innerHTML=N.items.map((it,i)=>
+      '<div class="mrow" data-i="'+i+'"><span class="num">'+(i+1)+'</span><div class="ac grow"><input class="mi" type="text" autocomplete="off" placeholder="Medicine name" value="'+esc(it.name)+'"><div class="sug" hidden></div></div>'+
+      '<div class="qty"><button type="button" data-q="-1" aria-label="Less">−</button><input class="qi" type="number" inputmode="numeric" min="1" value="'+esc(it.qty)+'" aria-label="Quantity"><button type="button" data-q="1" aria-label="More">+</button></div>'+
+      (N.items.length>1?'<button type="button" class="icon-btn" data-rm aria-label="Remove">'+icon('x',18)+'</button>':'')+'</div>').join('');
+    sum();renderUsual();
+    if(focusLast){const l=rows.querySelectorAll('.mi');l[l.length-1].focus()}
+  }
+  function addItem(name,qty){
+    const last=N.items[N.items.length-1];
+    if(last&&!clean(last.name)){last.name=name;last.qty=qty||1}else N.items.push({name,qty:qty||1});
+    renderRows();
+  }
+  function renderUsual(){
+    const used=new Set(N.items.map(i=>clean(i.name).toLowerCase()));
+    const list=N.usual.filter(u=>!used.has(u.name.toLowerCase()));
+    $('#usual').innerHTML=list.length?'<span class="hint" style="width:100%;margin:0">Previously bought — tap to add:</span>'+list.map((u,k)=>'<button type="button" class="chip soft" data-u="'+k+'">+ '+esc(u.name)+' ×'+esc(u.qty)+'</button>').join(''):'';
+    $('#usual')._list=list;
+  }
+  function renderDocChips(){
+    const c=N.existing&&N.existing.doctors||[];
+    $('#docChips').innerHTML=c.map(d=>'<button type="button" class="chip'+(clean(N.doctor)===d?' on':'')+'" data-dc="'+esc(d)+'">'+esc(d)+'</button>').join('');
+  }
+  function focusNextMed(){const e=Array.from(rows.querySelectorAll('.mi')).find(x=>!x.value)||rows.querySelector('.mi');if(e)e.focus()}
+
+  function clearCustomer(){
+    if(N.autoName&&nm.value===N.autoName)nm.value='';
+    if(N.autoAddr&&ad.value===N.autoAddr)ad.value='';
+    if(N.autoDoc&&doc.value===N.doctor){doc.value='';N.doctor=''}
+    N.name=nm.value;N.address=ad.value;N.existing=null;N.usual=[];N.autoName=N.autoAddr='';N.autoDoc=false;
+    renderDocChips();renderUsual();
+  }
+  function loadUsual(m){
+    S.db.collection('entries').where('customerId','==',m).get().then(snap=>{
+      if(N.mobile!==m)return;
+      const map=new Map();
+      toEntries(snap).forEach(e=>(e.items||[]).forEach(i=>{
+        const k=i.name.toLowerCase();const c=map.get(k);
+        if(!c)map.set(k,{name:i.name,qty:i.qty,n:1});else c.n++;
+      }));
+      N.usual=Array.from(map.values()).sort((a,b)=>b.n-a.n).slice(0,6);renderUsual();
+    }).catch(()=>{});
+  }
+  function onMobile(){
+    const m=normMobile(mob.value);N.mobile=m;
+    const b=$('#badge');
+    if(N.existing&&N.existing.id!==m)clearCustomer();
+    if(m.length<10){b.className='badge';b.textContent=m.length?(10-m.length)+' more digit'+(10-m.length===1?'':'s')+'…':'Enter mobile number to find the customer';return}
+    if(m.length>10){b.className='badge bad';b.textContent='Mobile number is too long';return}
+    const c=S.customers.get(m);
+    if(c){
+      if(N.existing&&N.existing.id===m)return;
+      N.existing=c;
+      nm.value=N.name=N.autoName=c.name||'';ad.value=N.address=N.autoAddr=c.address||'';
+      if(!clean(doc.value)&&c.lastDoctor){doc.value=N.doctor=c.lastDoctor;N.autoDoc=true}
+      const v=c.visits||0;
+      b.className='badge ok';b.textContent='✓ Existing customer'+(v?' · '+v+' previous entr'+(v===1?'y':'ies'):'')+(c.lastVisit?' · last '+fmt(c.lastVisit):'');
+      renderDocChips();loadUsual(m);
+      if(clean(doc.value))focusNextMed();else doc.focus();
+    }else{
+      N.existing=null;
+      b.className='badge new';b.textContent=S.ready.customers?'New customer — enter name and address':'Checking records…';
+      if(S.ready.customers)nm.focus();
+    }
+  }
+  S.refresh=()=>{if(N&&N.mobile.length===10&&!N.existing)onMobile()};
+
+  mob.addEventListener('input',onMobile);
+  nm.addEventListener('input',()=>{N.name=nm.value;nm.classList.remove('err')});
+  ad.addEventListener('input',()=>{N.address=ad.value});
+  $('#dt').addEventListener('change',e=>{N.date=e.target.value||today()});
+  doc.addEventListener('input',()=>{N.doctor=doc.value;N.autoDoc=false;showSug(docSug,matchList(S.doctors,doc.value,6),doc.value,'doctor');renderDocChips()});
+  doc.addEventListener('focus',()=>{if(clean(doc.value))showSug(docSug,matchList(S.doctors,doc.value,6),doc.value,'doctor')});
+  doc.addEventListener('blur',()=>setTimeout(()=>{docSug.hidden=true},150));
+  doc.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();const f=docSug.querySelector('.si');if(f&&!docSug.hidden){pickDoc(f.dataset.v)}else{docSug.hidden=true;focusNextMed()}}});
+  function pickDoc(v){doc.value=N.doctor=v;N.autoDoc=false;docSug.hidden=true;renderDocChips();focusNextMed()}
+  docSug.addEventListener('pointerdown',e=>{const s=e.target.closest('.si');if(s){e.preventDefault();pickDoc(s.dataset.v)}});
+  $('#docChips').addEventListener('click',e=>{const c=e.target.closest('[data-dc]');if(c)pickDoc(c.dataset.dc)});
+  $('#usual').addEventListener('click',e=>{const c=e.target.closest('[data-u]');if(!c)return;const u=$('#usual')._list[+c.dataset.u];if(u)addItem(u.name,u.qty)});
+  $('#addRow').addEventListener('click',()=>{N.items.push({name:'',qty:1});renderRows(true)});
+  $('#noteBtn').addEventListener('click',e=>{const t=$('#notes');t.hidden=false;e.target.hidden=true;t.focus()});
+  $('#notes').addEventListener('input',e=>{N.notes=e.target.value});
+
+  function pickMed(i,name){
+    N.items[i].name=name;
+    const row=rows.querySelector('.mrow[data-i="'+i+'"]');if(!row)return;
+    row.querySelector('.mi').value=name;row.querySelector('.sug').hidden=true;
+    row.querySelector('.mi').classList.remove('err');
+    const q=row.querySelector('.qi');q.focus();q.select();sum();renderUsual();
+  }
+  rows.addEventListener('input',e=>{
+    const row=e.target.closest('.mrow');if(!row)return;const i=+row.dataset.i;
+    if(e.target.classList.contains('mi')){N.items[i].name=e.target.value;e.target.classList.remove('err');showSug(row.querySelector('.sug'),matchList(S.medicines,e.target.value,8),e.target.value,'medicine')}
+    else if(e.target.classList.contains('qi')){const v=parseInt(e.target.value,10);N.items[i].qty=isNaN(v)?'':v}
+    sum();
+  });
+  rows.addEventListener('focusin',e=>{if(e.target.classList.contains('mi')&&clean(e.target.value)){const row=e.target.closest('.mrow');showSug(row.querySelector('.sug'),matchList(S.medicines,e.target.value,8),e.target.value,'medicine')}});
+  rows.addEventListener('focusout',e=>{const row=e.target.closest('.mrow');if(!row)return;const box=row.querySelector('.sug');setTimeout(()=>{if(box)box.hidden=true},150)});
+  rows.addEventListener('pointerdown',e=>{const s=e.target.closest('.si');if(s){e.preventDefault();pickMed(+s.closest('.mrow').dataset.i,s.dataset.v)}});
+  rows.addEventListener('click',e=>{
+    const row=e.target.closest('.mrow');if(!row)return;const i=+row.dataset.i;
+    const q=e.target.closest('[data-q]');
+    if(q){const v=Math.max(1,(parseInt(N.items[i].qty,10)||0)+(+q.dataset.q));N.items[i].qty=v;row.querySelector('.qi').value=v}
+    if(e.target.closest('[data-rm]')){N.items.splice(i,1);if(!N.items.length)N.items.push({name:'',qty:1});renderRows()}
+  });
+  rows.addEventListener('keydown',e=>{
+    if(e.key!=='Enter')return;const row=e.target.closest('.mrow');if(!row)return;e.preventDefault();const i=+row.dataset.i;
+    if(e.target.classList.contains('mi')){const f=row.querySelector('.sug:not([hidden]) .si');if(f)pickMed(i,f.dataset.v);else row.querySelector('.qi').focus()}
+    else if(e.target.classList.contains('qi')){if(clean(N.items[i].name)&&i===N.items.length-1){N.items.push({name:'',qty:1});renderRows(true)}}
+  });
+
+  $('#save').addEventListener('click',save);
+  async function save(){
+    const m=N.mobile,name=clean(nm.value),addr=clean(ad.value),dname=clean(doc.value);
+    let bad=false;
+    if(m.length!==10){mob.classList.add('err');bad=true;toast('Enter a valid 10-digit mobile number',true);mob.focus();return}
+    if(!name){nm.classList.add('err');toast('Enter the customer name',true);nm.focus();return}
+    const items=N.items.map(i=>({name:clean(i.name),qty:parseInt(i.qty,10)})).filter(i=>i.name);
+    if(!items.length){toast('Add at least one medicine',true);const f=rows.querySelector('.mi');f&&f.focus();return}
+    if(items.some(i=>!(i.qty>0))){toast('Enter quantity for every medicine',true);return}
+    const btn=$('#save');btn.disabled=true;btn.textContent='SAVING…';
+    try{
+      const now=new Date().toISOString(),date=$('#dt').value||today();
+      let doctorId=null;
+      if(dname){doctorId=slug(dname);if(!S.doctors.has(doctorId))await S.db.doc('doctors/'+doctorId).set({name:dname,createdAt:now,by:S.uid||null})}
+      const medIds=[];
+      for(const it of items){
+        it.medicineId=slug(it.name);
+        if(!S.medicines.has(it.medicineId)){await S.db.doc('medicines/'+it.medicineId).set({name:it.name,createdAt:now,by:S.uid||null});S.medicines.set(it.medicineId,{id:it.medicineId,name:it.name})}
+        if(!medIds.includes(it.medicineId))medIds.push(it.medicineId);
+      }
+      const cs=await S.db.doc('customers/'+m).get();
+      const old=cs.exists?cs.data():null;
+      const docs=(old&&old.doctors||[]).slice();
+      if(dname&&!docs.includes(dname))docs.push(dname);
+      await S.db.doc('customers/'+m).set({mobile:m,name,address:addr,doctors:docs,
+        lastDoctor:dname||(old&&old.lastDoctor)||'',visits:((old&&old.visits)||0)+1,
+        lastVisit:(old&&old.lastVisit&&old.lastVisit>date)?old.lastVisit:date,
+        createdAt:(old&&old.createdAt)||now,updatedAt:now});
+      await S.db.collection('entries').add({customerId:m,customerName:name,mobile:m,address:addr,
+        doctorId,doctorName:dname,date,items,medicineIds:medIds,notes:clean(N.notes),createdAt:now,by:S.uid||null});
+      toast('Saved ✓');
+      VIEWS.new({saved:{name,count:items.length,id:m}});
+      window.scrollTo(0,0);
+    }catch(e){
+      btn.disabled=false;btn.textContent='SAVE ENTRY';toast(errMsg(e),true);
+    }
+  }
+
+  renderRows();
+  if(p.mobile){mob.value=p.mobile;onMobile()}else mob.focus();
+};
+
+/* ---------- SEARCH ---------- */
+VIEWS.search=function(p){
+  let tab=p.tab||'customer',sel=p.sel||null,date=today(),tok=0;
+  const TABS=[['customer','Customer'],['medicine','Medicine'],['doctor','Doctor'],['date','Date']];
+  main.innerHTML='<div class="tabs" id="tabs"></div><div id="sin"></div><div id="sres"></div>';
+  const PH={customer:'Name or mobile number',medicine:'Type medicine name',doctor:'Type doctor name'};
+  function drawTabs(){$('#tabs').innerHTML=TABS.map(t=>'<button class="chip'+(t[0]===tab?' on':'')+'" data-t="'+t[0]+'">'+t[1]+'</button>').join('')}
+  function drawInput(){
+    const el=$('#sin');
+    if(tab==='date'){el.innerHTML='<div class="datebar"><button class="icon-btn" data-dd="-1">‹</button><input type="date" id="sq" value="'+date+'"><button class="icon-btn" data-dd="1">›</button></div>'}
+    else if(sel){el.innerHTML='<div class="banner ok" style="margin:0"><span>'+esc(tab==='medicine'?'Medicine':'Doctor')+': <b>'+esc(sel.name)+'</b></span><a id="chg">Change</a></div>'}
+    else el.innerHTML='<input type="search" id="sq" autocomplete="off" placeholder="'+PH[tab]+'">';
+    const q=$('#sq');if(q&&!sel&&tab!=='date'){q.focus();q.addEventListener('input',draw)}
+    if(q&&tab==='date')q.addEventListener('change',e=>{date=e.target.value||today();draw()});
+    const c=$('#chg');if(c)c.onclick=()=>{sel=null;drawInput();draw()};
+  }
+  async function showEntries(query,head){
+    const my=++tok;const res=$('#sres');res.innerHTML='<div class="empty">Loading…</div>';
+    try{
+      const snap=await query.get();if(my!==tok)return;
+      const es=toEntries(snap);
+      if(!es.length){res.innerHTML='<div class="empty">No entries found.</div>';return}
+      let units=0,custs=new Set();es.forEach(e=>{custs.add(e.customerId);(e.items||[]).forEach(i=>{if(!sel||tab==='doctor'||i.medicineId===sel.id)units+=(+i.qty||0)})});
+      res.innerHTML='<p class="hint">'+es.length+' entr'+(es.length===1?'y':'ies')+' · '+custs.size+' customer'+(custs.size===1?'':'s')+' · '+units+' unit'+(units===1?'':'s')+'</p>'+es.map(e=>entryCard(e)).join('');
+    }catch(e){res.innerHTML='<div class="empty">Could not load results.</div>'}
+  }
+  function draw(){
+    const res=$('#sres');
+    if(tab==='date'){showEntries(S.db.collection('entries').where('date','==',date));return}
+    if(tab==='customer'){
+      const q=clean($('#sq').value).toLowerCase();let list;
+      if(!q)list=custArr().sort((a,b)=>(b.updatedAt||'').localeCompare(a.updatedAt||'')).slice(0,10);
+      else{const dg=q.replace(/\D/g,'');const toks=q.split(' ');
+        list=custArr().filter(c=>(dg.length>=3&&/^[\d\s+\-]+$/.test(q)&&(c.mobile||'').includes(dg))||(!/^[\d\s+\-]+$/.test(q)&&toks.every(t=>(c.name||'').toLowerCase().includes(t)))).sort((a,b)=>(a.name||'').localeCompare(b.name||'')).slice(0,50)}
+      res.innerHTML=(q?'':'<p class="hint">Recent customers</p>')+(list.length?list.map(c=>'<button class="row" data-cust="'+esc(c.id)+'"><div class="r1"><b>'+esc(c.name)+'</b><span class="muted">'+esc(c.mobile)+'</span></div><span class="muted small">'+esc(c.address||'')+'</span></button>').join(''):'<div class="empty">No customer found.</div>');
+      return;
+    }
+    const map=tab==='medicine'?S.medicines:S.doctors;
+    if(sel){showEntries(tab==='medicine'?S.db.collection('entries').where('medicineIds','array-contains',sel.id):S.db.collection('entries').where('doctorId','==',sel.id));return}
+    const q=clean($('#sq').value);
+    const list=q?matchList(map,q,30):sortByName(Array.from(map.values())).slice(0,15);
+    res.innerHTML=(q?'':'<p class="hint">Type to search, or tap one</p>')+(list.length?list.map(x=>'<button class="row" data-pick="'+esc(x.name)+'"><b>'+esc(x.name)+'</b></button>').join(''):'<div class="empty">No match in saved '+(tab==='medicine'?'medicines':'doctors')+'.</div>');
+  }
+  main.addEventListener('click',onClick);
+  sub(()=>main.removeEventListener('click',onClick));
+  function onClick(e){
+    const t=e.target.closest('[data-t]');
+    if(t){tab=t.dataset.t;sel=null;drawTabs();drawInput();draw();return}
+    const pk=e.target.closest('[data-pick]');
+    if(pk){const nm=pk.dataset.pick;sel={id:slug(nm),name:nm};drawInput();draw();return}
+    const dd=e.target.closest('[data-dd]');
+    if(dd){date=addDays(date,+dd.dataset.dd);$('#sq').value=date;draw()}
+  }
+  S.refresh=()=>{if(tab==='customer'||(!sel&&tab!=='date'))draw()};
+  if(sel&&typeof sel==='string'){const nm=sel;sel={id:slug(nm),name:nm}}
+  drawTabs();drawInput();draw();
+};
+
+/* ---------- CUSTOMER LIST ---------- */
+VIEWS.customers=function(){
+  main.innerHTML='<input type="search" id="q" placeholder="Filter by name or mobile" autocomplete="off"><p class="hint" id="cnt"></p><div id="list"></div>';
+  const draw=()=>{
+    const q=clean($('#q').value).toLowerCase();
+    let a=custArr();
+    if(q){const toks=q.split(' ');a=a.filter(c=>toks.every(t=>(c.name||'').toLowerCase().includes(t)||(c.mobile||'').includes(t)))}
+    a=sortByName(a);
+    $('#cnt').textContent=a.length+' customer'+(a.length===1?'':'s');
+    $('#list').innerHTML=a.slice(0,200).map(c=>'<button class="row" data-cust="'+esc(c.id)+'"><div class="r1"><b>'+esc(c.name)+'</b><span class="muted">'+esc(c.mobile)+'</span></div><span class="muted small">'+esc(c.address||'')+(c.lastVisit?' · last '+fmt(c.lastVisit):'')+'</span></button>').join('')||'<div class="empty">No customers yet.</div>';
+    if(a.length>200)$('#list').insertAdjacentHTML('beforeend','<p class="hint">Showing first 200 — use the filter to narrow down.</p>');
+  };
+  $('#q').addEventListener('input',draw);S.refresh=draw;draw();
+};
+
+/* ---------- CUSTOMER DETAIL ---------- */
+VIEWS.customer=function(p){
+  const id=p.id;
+  main.innerHTML='<div id="cd"></div>';
+  let es=[];
+  function draw(){
+    const c=S.customers.get(id);
+    if(!c){$('#cd').innerHTML='<div class="empty">Customer not found.</div>';return}
+    const docs=new Set(c.doctors||[]);es.forEach(e=>e.doctorName&&docs.add(e.doctorName));
+    $('#cd').innerHTML='<section class="card"><div style="display:flex;justify-content:space-between;gap:10px"><div><h2 style="margin:0 0 4px;font-size:22px;text-transform:none;letter-spacing:0;color:var(--ink)">'+esc(c.name)+'</h2>'+
+      '<div style="font-size:18px;font-weight:600">'+esc(c.mobile)+'</div><div class="muted">'+esc(c.address||'No address')+'</div></div>'+
+      (S.canWrite?'<button class="icon-btn" id="ed" aria-label="Edit customer" style="border:1.5px solid var(--line)">'+icon('edit',18)+'</button>':'')+'</div>'+
+      '<div class="chips">'+(docs.size?Array.from(docs).map(d=>'<span class="chip soft">'+icon('steth',14)+' '+esc(d)+'</span>').join(''):'')+'</div>'+
+      (S.canWrite?'<button class="pill-btn primary" style="margin-top:12px;width:100%;justify-content:center;min-height:48px" data-go="new" data-p=\''+esc(JSON.stringify({mobile:id}))+'\'>'+icon('plus',18)+' New entry for this customer</button>':'')+'</section>'+
+      '<h2 style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:16px 2px 0">Medicine history · '+es.length+' entr'+(es.length===1?'y':'ies')+'</h2>'+
+      (es.length?es.map(e=>entryCard(e,{noCust:true})).join(''):'<div class="empty">No medicine entries yet.</div>');
+    const ed=$('#ed');if(ed)ed.onclick=()=>editCust(c);
+  }
+  function editCust(c){
+    const m=modal('<h3>Edit customer</h3><label>Name</label><input id="en" type="text" value="'+esc(c.name)+'"><label>Address</label><input id="ea" type="text" value="'+esc(c.address||'')+'"><div class="acts"><button data-r="0">Cancel</button><button class="go" data-r="1">Save</button></div>');
+    m.el.addEventListener('click',async e=>{
+      const b=e.target.closest('[data-r]');if(!b)return;
+      if(b.dataset.r==='0'){m.close();return}
+      const n=clean($('#en',m.el).value);if(!n){toast('Name is required',true);return}
+      try{await S.db.doc('customers/'+id).update({name:n,address:clean($('#ea',m.el).value),updatedAt:new Date().toISOString()});m.close();toast('Customer updated')}
+      catch(x){toast(errMsg(x),true)}
+    });
+  }
+  S.refresh=draw;draw();
+  sub(S.db.collection('entries').where('customerId','==',id).onSnapshot(s=>{es=toEntries(s);draw()},()=>toast('Could not load history',true)));
+};
+
+/* ---------- MEDICINES ---------- */
+VIEWS.medicines=function(){
+  main.innerHTML=(S.canWrite?'<section class="card"><h2>Add medicine</h2><div class="addrow"><input id="am" type="text" autocomplete="off" placeholder="e.g. Paracetamol 500 mg"><button id="amb">Add</button></div>'+
+    '<button class="chip soft" id="bulkT" style="margin-top:10px">Add many (one per line)</button><div id="bulk" hidden><textarea id="bt" placeholder="Paracetamol 500 mg&#10;Paracetamol 650 mg&#10;Amoxicillin 250 mg" style="margin-top:8px;min-height:140px"></textarea><button class="pill-btn primary" id="bb" style="margin-top:8px">Save all</button></div></section>':'')+
+    '<input type="search" id="q" placeholder="Filter medicines" autocomplete="off"><p class="hint" id="cnt"></p><div id="list"></div>';
+  const draw=()=>{
+    const q=clean($('#q').value).toLowerCase();const toks=q?q.split(' '):[];
+    const a=sortByName(Array.from(S.medicines.values())).filter(m=>toks.every(t=>(m.name||'').toLowerCase().includes(t)));
+    $('#cnt').textContent=a.length+' medicine'+(a.length===1?'':'s');
+    $('#list').innerHTML=a.slice(0,300).map(m=>'<div class="listrow"><div class="nm">'+esc(m.name)+'</div><button class="chip" data-go="search" data-p=\''+esc(JSON.stringify({tab:'medicine',sel:m.name}))+'\'>History</button>'+(S.canWrite?'<button class="icon-btn" data-md="'+esc(m.id)+'" aria-label="Delete">'+icon('trash',18)+'</button>':'')+'</div>').join('')||'<div class="empty">No medicines saved yet. Add them here, or they are saved automatically when you use them in an entry.</div>';
+  };
+  $('#q').addEventListener('input',draw);S.refresh=draw;draw();
+  async function add(name){
+    name=clean(name);if(!name)return false;const id=slug(name);
+    if(S.medicines.has(id))return false;
+    await S.db.doc('medicines/'+id).set({name,createdAt:new Date().toISOString(),by:S.uid||null});S.medicines.set(id,{id,name});return true;
+  }
+  if(S.canWrite){
+    $('#amb').onclick=async()=>{const v=$('#am').value;try{const ok=await add(v);toast(ok?'Medicine added':'Already saved');$('#am').value='';draw()}catch(e){toast(errMsg(e),true)}};
+    $('#am').addEventListener('keydown',e=>{if(e.key==='Enter')$('#amb').click()});
+    $('#bulkT').onclick=()=>{$('#bulk').hidden=!$('#bulk').hidden};
+    $('#bb').onclick=async()=>{
+      const lines=$('#bt').value.split('\n').map(clean).filter(Boolean).slice(0,500);let n=0;
+      const btn=$('#bb');btn.disabled=true;
+      try{for(const l of lines){if(await add(l))n++}toast(n+' medicine'+(n===1?'':'s')+' added');$('#bt').value='';draw()}
+      catch(e){toast(errMsg(e),true)}btn.disabled=false;
+    };
+    $('#list').addEventListener('click',async e=>{
+      const d=e.target.closest('[data-md]');if(!d)return;
+      const m=S.medicines.get(d.dataset.md);
+      if(await confirmBox('Remove medicine?','“'+(m&&m.name)+'” will be removed from suggestions. Past entries keep their records.','Remove')){
+        try{await S.db.doc('medicines/'+d.dataset.md).delete()}catch(x){toast(errMsg(x),true)}
+      }
+    });
+  }
+};
+
+/* ---------- DOCTORS ---------- */
+VIEWS.doctors=function(){
+  main.innerHTML=(S.canWrite?'<section class="card"><h2>Add doctor</h2><div class="addrow"><input id="ad" type="text" autocomplete="off" placeholder="e.g. Dr. Amit Ghosh"><button id="adb">Add</button></div></section>':'')+
+    '<input type="search" id="q" placeholder="Filter doctors" autocomplete="off"><p class="hint" id="cnt"></p><div id="list"></div>';
+  const draw=()=>{
+    const q=clean($('#q').value).toLowerCase();const toks=q?q.split(' '):[];
+    const a=sortByName(Array.from(S.doctors.values())).filter(m=>toks.every(t=>(m.name||'').toLowerCase().includes(t)));
+    $('#cnt').textContent=a.length+' doctor'+(a.length===1?'':'s');
+    $('#list').innerHTML=a.map(d=>'<div class="listrow"><div class="nm">'+icon('steth',16)+' '+esc(d.name)+'</div><button class="chip" data-go="search" data-p=\''+esc(JSON.stringify({tab:'doctor',sel:d.name}))+'\'>Entries</button>'+(S.canWrite?'<button class="icon-btn" data-dd2="'+esc(d.id)+'" aria-label="Delete">'+icon('trash',18)+'</button>':'')+'</div>').join('')||'<div class="empty">No doctors saved yet.</div>';
+  };
+  $('#q').addEventListener('input',draw);S.refresh=draw;draw();
+  if(S.canWrite){
+    $('#adb').onclick=async()=>{
+      const name=clean($('#ad').value);if(!name)return;const id=slug(name);
+      if(S.doctors.has(id)){toast('Already saved');return}
+      try{await S.db.doc('doctors/'+id).set({name,createdAt:new Date().toISOString(),by:S.uid||null});S.doctors.set(id,{id,name});$('#ad').value='';toast('Doctor added');draw()}catch(e){toast(errMsg(e),true)}
+    };
+    $('#ad').addEventListener('keydown',e=>{if(e.key==='Enter')$('#adb').click()});
+    $('#list').addEventListener('click',async e=>{
+      const d=e.target.closest('[data-dd2]');if(!d)return;const m=S.doctors.get(d.dataset.dd2);
+      if(await confirmBox('Remove doctor?','“'+(m&&m.name)+'” will be removed from suggestions. Past entries keep their records.','Remove')){
+        try{await S.db.doc('doctors/'+d.dataset.dd2).delete()}catch(x){toast(errMsg(x),true)}
+      }
+    });
+  }
+};
+
+/* ---------- DAILY ---------- */
+VIEWS.daily=function(p){
+  let d=p.date||today(),unsub=null,seq=0;
+  main.innerHTML='<div class="datebar"><button class="icon-btn" data-d="-1">‹</button><input type="date" id="dd" value="'+d+'"><button class="icon-btn" data-d="1">›</button></div><div class="tabs" style="padding-top:8px"><button class="chip" id="td">Today</button></div><div class="stats" id="ds"></div><div id="dl"></div>';
+  async function render(es){
+    const my=++seq;
+    const ids=Array.from(new Set(es.map(e=>e.by).filter(Boolean)));let ps={};
+    if(S.user&&ids.length){try{ps=await S.user.profiles(ids)||{}}catch(e){}}
+    if(my!==seq)return;
+    const units=es.reduce((s,e)=>s+(e.items||[]).reduce((a,i)=>a+(+i.qty||0),0),0);
+    const cust=new Set(es.map(e=>e.customerId)).size;
+    $('#ds').innerHTML='<div class="stat"><b>'+es.length+'</b><span>Entries</span></div><div class="stat"><b>'+cust+'</b><span>Customers</span></div><div class="stat"><b>'+units+'</b><span>Units</span></div><div class="stat"><b>'+(es.length?fmt(d).slice(0,5):'–')+'</b><span>Date</span></div>';
+    $('#dl').innerHTML=es.length?es.map(e=>entryCard(e,{by:e.by?((ps[e.by]&&ps[e.by].name)||'staff'):''})).join(''):'<div class="empty">No entries on '+fmt(d)+'.</div>';
+  }
+  function load(){
+    if(unsub)unsub();
+    unsub=S.db.collection('entries').where('date','==',d).onSnapshot(s=>render(toEntries(s)),()=>toast('Could not load entries',true));
+  }
+  sub(()=>unsub&&unsub());
+  $('#dd').addEventListener('change',e=>{d=e.target.value||today();load()});
+  const nav=e=>{const b=e.target.closest('[data-d]');if(b){d=addDays(d,+b.dataset.d);$('#dd').value=d;load()}};
+  main.addEventListener('click',nav);sub(()=>main.removeEventListener('click',nav));
+  $('#td').onclick=()=>{d=today();$('#dd').value=d;load()};
+  load();
+};
+
+/* ---------- REPORTS ---------- */
+VIEWS.reports=function(){
+  const t=today(),ym=t.slice(0,8)+'01';
+  let from=ym,to=t,preset='month',data=[],seq=0;
+  const PRE={today:['Today',()=>[t,t]],week:['Last 7 days',()=>[addDays(t,-6),t]],month:['This month',()=>[ym,t]],d30:['Last 30 days',()=>[addDays(t,-29),t]]};
+  main.innerHTML='<div class="tabs" id="pre"></div><div class="grid2"><div><label>From</label><input type="date" id="f" value="'+from+'"></div><div><label>To</label><input type="date" id="t" value="'+to+'"></div></div><div id="out"></div>';
+  function drawPre(){$('#pre').innerHTML=Object.keys(PRE).map(k=>'<button class="chip'+(k===preset?' on':'')+'" data-pr="'+k+'">'+PRE[k][0]+'</button>').join('')}
+  async function load(){
+    const my=++seq;$('#out').innerHTML='<div class="empty">Loading…</div>';
+    try{
+      const snap=await S.db.collection('entries').where('date','>=',from).where('date','<=',to).limit(1000).get();
+      if(my!==seq)return;data=toEntries(snap);draw(snap.size>=1000);
+    }catch(e){$('#out').innerHTML='<div class="empty">Could not load report.</div>'}
+  }
+  function top(map,n){return Array.from(map.entries()).sort((a,b)=>b[1]-a[1]).slice(0,n)}
+  function list(arr,unit){return arr.length?'<ol class="rank">'+arr.map(a=>'<li><span>'+esc(a[0])+'</span><b>'+a[1]+(unit?' '+unit:'')+'</b></li>').join('')+'</ol>':'<div class="muted small">No data</div>'}
+  function draw(capped){
+    const meds=new Map(),docs=new Map(),custs=new Map(),days=new Map();let units=0;
+    data.forEach(e=>{
+      const c=e.customerName+' · '+e.mobile;custs.set(c,(custs.get(c)||0)+1);
+      if(e.doctorName)docs.set(e.doctorName,(docs.get(e.doctorName)||0)+1);
+      days.set(e.date,(days.get(e.date)||0)+1);
+      (e.items||[]).forEach(i=>{meds.set(i.name,(meds.get(i.name)||0)+(+i.qty||0));units+=(+i.qty||0)});
+    });
+    const uc=new Set(data.map(e=>e.customerId)).size;
+    let bars='';
+    const nd=Math.round((new Date(to)-new Date(from))/864e5)+1;
+    if(nd>1&&nd<=62){const arr=[];for(let k=0;k<nd;k++)arr.push(days.get(addDays(from,k))||0);const mx=Math.max(1,...arr);bars='<section class="card"><h2>Entries per day</h2><div class="bars">'+arr.map((v,k)=>'<div title="'+fmt(addDays(from,k))+': '+v+'" style="height:'+Math.round(v/mx*100)+'%"></div>').join('')+'</div><div class="muted small" style="display:flex;justify-content:space-between"><span>'+fmt(from)+'</span><span>'+fmt(to)+'</span></div></section>'}
+    $('#out').innerHTML=(capped?'<div class="banner warn">Showing the first 1,000 entries in this range. Use a shorter range for complete totals.</div>':'')+
+      '<div class="stats" style="margin-top:12px"><div class="stat"><b>'+data.length+'</b><span>Entries</span></div><div class="stat"><b>'+uc+'</b><span>Customers</span></div><div class="stat"><b>'+units+'</b><span>Units</span></div><div class="stat"><b>'+meds.size+'</b><span>Medicines</span></div></div>'+bars+
+      '<section class="card"><h2>Top medicines (units)</h2>'+list(top(meds,10))+'</section>'+
+      '<section class="card"><h2>Top doctors (entries)</h2>'+list(top(docs,8))+'</section>'+
+      '<section class="card"><h2>Most frequent customers</h2>'+list(top(custs,8),'×')+'</section>'+
+      (S.dl&&data.length?'<button class="pill-btn primary" id="csv" style="width:100%;justify-content:center;min-height:50px">'+icon('dl',18)+' Download CSV</button>':'');
+    const b=$('#csv');if(b)b.onclick=exportCsv;
+  }
+  async function exportCsv(){
+    const q=v=>'"'+String(v==null?'':v).replace(/"/g,'""')+'"';
+    const rows=[['Date','Customer','Mobile','Address','Doctor','Medicine','Quantity','Notes']];
+    data.slice().reverse().forEach(e=>(e.items||[]).forEach(i=>rows.push([fmt(e.date),e.customerName,e.mobile,e.address||'',e.doctorName||'',i.name,i.qty,e.notes||''])));
+    try{await S.dl.save({filename:'kamala-pharmacy_'+from+'_to_'+to+'.csv',data:'\ufeff'+rows.map(r=>r.map(q).join(',')).join('\r\n')})}
+    catch(e){if(!e||e.code!=='declined')toast('Could not save the file',true)}
+  }
+  function setRange(){from=$('#f').value||ym;to=$('#t').value||t;if(from>to){const x=from;from=to;to=x}}
+  $('#f').addEventListener('change',()=>{preset='';drawPre();setRange();load()});
+  $('#t').addEventListener('change',()=>{preset='';drawPre();setRange();load()});
+  const pc=e=>{const b=e.target.closest('[data-pr]');if(!b)return;preset=b.dataset.pr;[from,to]=PRE[preset][1]();$('#f').value=from;$('#t').value=to;drawPre();load()};
+  main.addEventListener('click',pc);sub(()=>main.removeEventListener('click',pc));
+  drawPre();load();
+};
+
+/* ---------- init ---------- */
+async function init(){
+  lock('Checking staff access…','Please wait a moment.',false);
+  const c=window.claude;
+  if(!c||!c.use){lock('Staff access only','Open this page from the shared Kamala Pharmacy link while signed in to an authorised account.',true);return}
+  try{
+    S.db=await c.use('db');S.user=await c.use('user');
+    try{S.dl=await c.use('downloads')}catch(e){S.dl=null}
+  }catch(e){S.db=null}
+  if(!S.db){lock('Staff access only','You are not signed in or not authorised. Ask the pharmacy owner to invite you, then sign in and reopen this page.',true);return}
+  try{
+    if(S.user){
+      S.uid=await S.user.id();
+      try{const me=await S.user.me();S.staff=(me&&me.name)||''}catch(e){}
+      const cw=await Promise.resolve(S.user.can?S.user.can('data.write'):null);
+      S.canWrite=cw!==false;
+    }
+  }catch(e){}
+  $('#who').textContent=S.staff?S.staff:'';
+  // staff registry (Users table): one record per signed-in staff member
+  if(S.uid&&S.canWrite){
+    try{const u=await S.db.doc('users/'+S.uid).get();if(!u.exists)await S.db.doc('users/'+S.uid).set({id:S.uid,name:S.staff||'',role:'staff',firstSeen:new Date().toISOString()})}catch(e){}
+  }
+  const onErr=e=>{if(e&&e.code==='revoked')lock('Access removed','Your access to this page was withdrawn. Reopen the page to continue.',true)};
+  const watch=(name,map)=>S.db.collection(name).onSnapshot(snap=>{
+    map.clear();snap.docs.forEach(d=>map.set(d.id,Object.assign({id:d.id},d.data())));
+    S.ready[name]=true;
+    if(S.refresh)try{S.refresh()}catch(e){}
+  },onErr);
+  watch('customers',S.customers);watch('doctors',S.doctors);watch('medicines',S.medicines);
+  go('home',{},false);
+  try{history.replaceState({v:'home',p:{}},'')}catch(e){}
+}
+init();
+})();
+</script>
+</body>
+</html>
